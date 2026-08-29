@@ -67,10 +67,15 @@ implicitly. Given the same package and NumPy versions, configuration, initial
 inputs, deterministic fitness function, seed, and call order, the run result is
 reproducible.
 
+Milestone 4's higher-level `run_experiment` composes this contract with
+call-order-independent named streams: initialization and evolution receive
+separate generators derived from one recorded master seed. The low-level engine
+contract is unchanged.
+
 ## Deliberately deferred alternatives
 
 Milestone 3 does not define crossover, multi-objective comparison,
 population-wide shared teams or learners, probabilistic evaluation, fitness
-aggregation across episodes, parallel evaluation, persistent genealogy,
-checkpointing, or adaptive mutation probabilities. These require explicit
-semantics before implementation.
+aggregation across episodes, parallel evaluation, persistent genealogy, or
+adaptive mutation probabilities. Versioned reference checkpoints are specified
+separately in [Reproducible research infrastructure](research-infrastructure.md).

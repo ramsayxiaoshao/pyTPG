@@ -1,6 +1,6 @@
 # TPG semantic specification
 
-Status: **Milestone 3 reference evolution semantics implemented**.
+Status: **Milestone 4 reproducible research infrastructure implemented**.
 
 These documents separate settled structural rules from algorithm choices that
 must be resolved before the corresponding implementation milestone. Normative
@@ -13,6 +13,7 @@ Text marked **unresolved** is not an implementation contract.
 - [Graph traversal and invariants](graph.md)
 - [Evolution semantics](evolution.md)
 - [Mutation semantics](mutation.md)
+- [Reproducible research infrastructure](research-infrastructure.md)
 - [Open algorithmic questions](open-questions.md)
 
 Specification changes that alter observable behavior require regression tests

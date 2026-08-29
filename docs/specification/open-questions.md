@@ -39,6 +39,20 @@ Persistent genealogy identity, crossover, population-wide sharing,
 multi-objective comparison, evaluator RNG ownership, and alternative mutation
 probability interpretations remain deferred rather than silently implied.
 
+## Resolved in Milestone 4: reproducible research infrastructure
+
+Milestone 4 fixes immutable composed experiment configuration and canonical
+digests; call-order-independent named seed derivation; structured synchronous
+lifecycle events; failure-propagating logging callbacks; deterministic fitness
+and mutation statistics; recorded environment metadata; normalized version-1
+graph JSON; evaluated-boundary version-1 checkpoint JSON; PCG64 state capture;
+and exact deterministic continuation without re-evaluating the checkpoint
+generation. See [Reproducible research infrastructure](research-infrastructure.md).
+
+Portable custom-operator registries, arbitrary stochastic evaluator state,
+callback-private state, full persistent genealogy, and schema migrations remain
+open rather than being encoded with pickle or implicit conventions.
+
 ## Project decisions before public release
 
 - Final distribution name (the current `pytpg` name is provisional).

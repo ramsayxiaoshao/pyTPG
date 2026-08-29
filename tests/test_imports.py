@@ -4,7 +4,7 @@
 def test_top_level_package_imports() -> None:
     import tpg
 
-    assert tpg.__version__ == "0.2.0"
+    assert tpg.__version__ == "0.2.1"
     assert tpg.__all__ == ["__version__"]
 
 
@@ -88,6 +88,9 @@ def test_evaluation_can_be_imported_before_evolution() -> None:
         "ContextualBanditCase",
         "Evaluator",
         "FitnessFunction",
+        "GenerationStatistics",
+        "OperatorStatistics",
+        "RunStatistics",
         "SequentialEvaluator",
     }
     assert set(evolution.__all__) == {
@@ -127,3 +130,51 @@ def test_evaluation_can_be_imported_before_evolution() -> None:
         "create_rng",
         "default_mutation",
     }
+
+
+def test_research_infrastructure_public_apis() -> None:
+    from tpg import callbacks, serialization
+    from tpg.config import TPGConfig
+    from tpg.experiment import ExperimentResult, resume_experiment, run_experiment
+    from tpg.metadata import ExperimentMetadata
+    from tpg.seed import SeedManager
+
+    assert set(callbacks.__all__) == {
+        "EventRecorder",
+        "EvolutionCallback",
+        "EvolutionEvent",
+        "EvolutionEventKind",
+        "LoggingCallback",
+    }
+    assert set(serialization.__all__) == {
+        "CHECKPOINT_FORMAT",
+        "CHECKPOINT_FORMAT_VERSION",
+        "GRAPH_FORMAT",
+        "GRAPH_FORMAT_VERSION",
+        "Checkpoint",
+        "CheckpointCompatibilityError",
+        "InvalidSerializedDataError",
+        "RNGSnapshot",
+        "SerializationError",
+        "UnsupportedFormatVersionError",
+        "capture_rng",
+        "checkpoint_from_dict",
+        "checkpoint_to_dict",
+        "dumps_checkpoint",
+        "dumps_graph",
+        "graph_from_dict",
+        "graph_to_dict",
+        "load_checkpoint",
+        "load_graph",
+        "loads_checkpoint",
+        "loads_graph",
+        "restore_rng",
+        "save_checkpoint",
+        "save_graph",
+    }
+    assert TPGConfig.__name__ == "TPGConfig"
+    assert SeedManager.__name__ == "SeedManager"
+    assert ExperimentMetadata.__name__ == "ExperimentMetadata"
+    assert ExperimentResult.__name__ == "ExperimentResult"
+    assert callable(run_experiment)
+    assert callable(resume_experiment)

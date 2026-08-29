@@ -32,10 +32,14 @@ src/tpg/
     runtime/              # Program, team, and graph reference execution
     evolution/            # Population, selection, mutation, reproduction, engine
     evaluation/           # Evaluator protocols and deterministic toy objectives
+    callbacks/            # Structured lifecycle events and logging consumers
+    serialization/        # Versioned graph and checkpoint JSON
+    config.py             # Immutable experiment-level configuration
+    seed.py               # Named deterministic random streams
+    metadata.py           # Recorded experiment provenance
+    experiment.py         # Reproducible run/resume composition
     memory/               # Reserved for memory composition
     adapters/             # Reserved for optional environments
-    serialization/        # Reserved for versioned model formats
-    callbacks/            # Reserved for lifecycle events
 docs/
     specification/        # Normative algorithm semantics and open questions
 tests/                    # Fast unit, property, regression, integration tests
@@ -43,9 +47,10 @@ benchmarks/               # Profiling workloads, not correctness tests
 examples/                 # Small runnable examples
 ```
 
-Milestone 3 publishes `core`, the deterministic `runtime`, immutable evolutionary
-state and operators, a sequential evaluator, and deterministic toy objectives.
-The other packages remain boundary markers, not speculative interfaces.
+Milestone 4 publishes `core`, the deterministic `runtime`, immutable
+evolutionary state and operators, sequential evaluation, research configuration,
+callbacks, statistics, metadata, and versioned JSON artifacts. Memory and
+adapter packages remain boundary markers.
 
 ## Core object model
 
@@ -91,10 +96,25 @@ only the stable sequential reference evaluator.
 
 ## Configuration and dynamic state
 
-Focused frozen configurations currently define genome shape, initialization,
-mutation, and reproduction. A consolidated experiment-level `TPGConfig` and
-checkpointable `TPGState` remain Milestone 4 work. Neither belongs in the core
+Focused frozen configurations define genome shape, initialization, mutation,
+and reproduction. `TPGConfig` composes them for one reference experiment and
+provides a canonical digest. Dynamic state remains in immutable population,
+run-result, statistics, metadata, and checkpoint values rather than the core
 graph model.
+
+## Research infrastructure
+
+`SeedManager` derives named RNG streams independently of call order.
+`EvolutionEvent` and `EvolutionCallback` isolate lifecycle reporting from the
+engine; the standard logging consumer does not configure global logging.
+`ExperimentMetadata` records environment provenance, while pure statistics
+summarize immutable evolution results.
+
+`run_experiment` and `resume_experiment` are composition helpers rather than a
+giant trainer: they build existing initializer, evaluator, reproducer, and
+engine components. Serialization uses normalized graph tables and an evaluated
+checkpoint boundary. The serializer depends on core/evolution/research values;
+core and runtime never depend on serialization.
 
 ## Runtime composition
 
