@@ -6,9 +6,9 @@ pyTPG is a modular research framework for Tangled Program Graphs
 (TPG). The project is being developed specification-first so that algorithmic
 choices are explicit, testable, and reproducible.
 
-The repository currently contains **Milestone 2**: semantic specifications,
-typed core representations, deterministic program and team execution, and safe
-TPG graph traversal. Evolution is not implemented yet.
+The repository currently contains **Milestone 3**: semantic specifications,
+typed immutable graphs, deterministic execution and traversal, and a modular
+reference evolutionary system validated on a tiny contextual bandit.
 
 ## Installation
 
@@ -70,7 +70,11 @@ rather than relying on the shape inference provided by `graph.act`.
 - Stable raw-bid selection with deterministic tie-breaking.
 - Validated Team-reference traversal with cycle and step-limit safety.
 - Graph diagnostics, traversal traces, and structural summaries.
-- Draft specifications for mutation and reproducibility.
+- Explicit NumPy RNG ownership and fixed-seed reproducibility.
+- Valid connected population initialization and finite scalar evaluation.
+- Stable tournament selection, elitism, and mutation-only reproduction.
+- Eight focused clone-on-write mutation operators with invariant validation.
+- Inspectable parent and mutation records for each offspring generation.
 
 ## Documentation
 
@@ -92,11 +96,17 @@ Run the cyclic graph traversal example with:
 python examples/manual_graph.py
 ```
 
+Run a fixed-seed toy evolution with:
+
+```bash
+python examples/evolve_bandit.py
+```
+
 Environment integrations remain intentionally deferred until Milestone 5.
 
 ## Development status
 
-Current version: `0.1.0` (Milestone 2, deterministic core runtime, pre-alpha).
+Current version: `0.2.0` (Milestone 3, reference evolution, pre-alpha).
 
 Run the local checks with:
 

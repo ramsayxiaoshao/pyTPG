@@ -4,7 +4,7 @@
 def test_top_level_package_imports() -> None:
     import tpg
 
-    assert tpg.__version__ == "0.1.0"
+    assert tpg.__version__ == "0.2.0"
     assert tpg.__all__ == ["__version__"]
 
 
@@ -78,3 +78,52 @@ def test_runtime_public_api_imports() -> None:
     }
 
     assert set(runtime.__all__) == expected
+
+
+def test_evaluation_can_be_imported_before_evolution() -> None:
+    from tpg import evaluation, evolution
+
+    assert set(evaluation.__all__) == {
+        "ContextualBandit",
+        "ContextualBanditCase",
+        "Evaluator",
+        "FitnessFunction",
+        "SequentialEvaluator",
+    }
+    assert set(evolution.__all__) == {
+        "AddLearnerMutation",
+        "AddTeamMutation",
+        "ChildRecord",
+        "DeleteInstructionMutation",
+        "DeleteLearnerMutation",
+        "DeleteTeamMutation",
+        "EvaluatedIndividual",
+        "EvaluatedPopulation",
+        "EvolutionConfigurationError",
+        "EvolutionEngine",
+        "EvolutionError",
+        "EvolutionRunResult",
+        "GenomeConfig",
+        "GenomeFactory",
+        "GraphInitializer",
+        "InitializationConfig",
+        "InsertInstructionMutation",
+        "InvalidFitnessError",
+        "ModifyInstructionMutation",
+        "MutateLearnerAction",
+        "MutationConfig",
+        "MutationInvariantError",
+        "MutationOperator",
+        "MutationOutcome",
+        "Population",
+        "PopulationInitializer",
+        "RandomGenerator",
+        "Reproducer",
+        "ReproductionConfig",
+        "ReproductionResult",
+        "SelectionStrategy",
+        "TournamentSelection",
+        "WeightedMutation",
+        "create_rng",
+        "default_mutation",
+    }

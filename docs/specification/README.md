@@ -1,6 +1,6 @@
 # TPG semantic specification
 
-Status: **Milestone 2 graph-runtime semantics implemented; later milestones draft**.
+Status: **Milestone 3 reference evolution semantics implemented**.
 
 These documents separate settled structural rules from algorithm choices that
 must be resolved before the corresponding implementation milestone. Normative
@@ -11,6 +11,7 @@ Text marked **unresolved** is not an implementation contract.
 - [Instructions, registers, and programs](instructions-and-programs.md)
 - [Learners, bidding, teams, and actions](learners-teams-actions.md)
 - [Graph traversal and invariants](graph.md)
+- [Evolution semantics](evolution.md)
 - [Mutation semantics](mutation.md)
 - [Open algorithmic questions](open-questions.md)
 

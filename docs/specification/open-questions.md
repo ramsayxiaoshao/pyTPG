@@ -22,20 +22,22 @@ valid; and orphan teams as warnings rather than automatic deletion. Exact rules
 and the termination argument are documented in
 [Graph traversal and invariants](graph.md).
 
-Learner sharing remains representable, but mutation behavior for shared learners
-is still a Milestone 3 decision.
+Learner sharing remains representable. Milestone 3 mutations use clone-on-write
+for the selected team membership.
 
-## Required before Milestone 3: evolution
+## Resolved in Milestone 3: evolution
 
-1. Population unit: root team, graph, or another individual boundary.
-2. Parent selection and fitness comparison, including ties and multi-objective
-   extension points.
-3. Mutation probabilities, their conditional/unconditional interpretation, and
-   retry/no-op behavior.
-4. Team deletion, reference repair, root preservation, and orphan cleanup.
-5. Deterministic ID allocation and RNG stream ownership across initialization,
-   evaluation, selection, reproduction, and mutation.
-6. Genealogy event boundaries and the meaning of parentage for shared structure.
+Milestone 3 fixes a complete graph as the population unit; finite scalar fitness
+maximization; stable tournament ties; stable elitism; asexual mutation-only
+reproduction; relative mutation-category weights; explicit no-op attempts;
+clone-on-write learner membership; graph-local ID allocation; root-preserving
+team deletion with incoming-reference removal and no recursive orphan cleanup;
+and one caller-owned NumPy RNG stream. See [Evolution semantics](evolution.md)
+and [Mutation semantics](mutation.md).
+
+Persistent genealogy identity, crossover, population-wide sharing,
+multi-objective comparison, evaluator RNG ownership, and alternative mutation
+probability interpretations remain deferred rather than silently implied.
 
 ## Project decisions before public release
 

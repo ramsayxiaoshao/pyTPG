@@ -22,5 +22,6 @@ pytest
 python -m build
 ```
 
-Milestone 2 intentionally excludes evolution, serialization, environment
-adapters, memory, and experiment logging.
+Milestone 3 intentionally excludes serialization, checkpoints, consolidated
+experiment configuration, environment adapters, memory, parallel evaluation,
+and experiment logging.

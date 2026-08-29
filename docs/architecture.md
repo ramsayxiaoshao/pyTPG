@@ -30,8 +30,8 @@ semantics without knowing how observations or actions are produced externally.
 src/tpg/
     core/                 # Immutable domain model
     runtime/              # Program, team, and graph reference execution
-    evolution/            # Reserved for Milestone 3
-    evaluation/           # Reserved for evaluator abstractions
+    evolution/            # Population, selection, mutation, reproduction, engine
+    evaluation/           # Evaluator protocols and deterministic toy objectives
     memory/               # Reserved for memory composition
     adapters/             # Reserved for optional environments
     serialization/        # Reserved for versioned model formats
@@ -43,7 +43,8 @@ benchmarks/               # Profiling workloads, not correctness tests
 examples/                 # Small runnable examples
 ```
 
-Milestone 1 publishes `core` value objects and the `runtime` reference executor.
+Milestone 3 publishes `core`, the deterministic `runtime`, immutable evolutionary
+state and operators, a sequential evaluator, and deterministic toy objectives.
 The other packages remain boundary markers, not speculative interfaces.
 
 ## Core object model
@@ -55,8 +56,8 @@ of domain objects.
 
 Identifiers are `typing.NewType` integer IDs. They are compact and serialize
 cleanly while allowing static analysis to distinguish a `TeamID` from a
-`ProgramID`. ID allocation belongs to future construction/evolution services;
-core constructors never read global state or randomness.
+`ProgramID`. Evolution allocates IDs from graph contents without a global
+counter; core constructors never read global state or randomness.
 
 `Action` is a tagged sum type:
 
@@ -74,12 +75,26 @@ representable. `TPGGraph` owns an ordered tuple of teams and an ordered tuple of
 root IDs. A future serialization layer may normalize repeated learners and
 programs into separate tables without changing the domain API.
 
+## Evolution composition
+
+`GenomeFactory` and initialization services construct valid graph individuals
+using an explicit NumPy generator. `MutationOperator`, `SelectionStrategy`, and
+`Evaluator` are protocols. `Reproducer` composes selection, elitism, and focused
+mutation; `EvolutionEngine` only orchestrates bounded evaluate/reproduce steps.
+No layer owns hidden random state, imports an environment, or mutates core
+values in place.
+
+`Population`, `EvaluatedPopulation`, `ReproductionResult`, and
+`EvolutionRunResult` separate dynamic run state from stable configuration.
+Fitness evaluation is abstracted from execution scheduling; Milestone 3 ships
+only the stable sequential reference evaluator.
+
 ## Configuration and dynamic state
 
-Future `TPGConfig` values will contain stable experimental choices. Future
-`TPGState` values will contain generation, population, fitness, and history.
-Neither belongs in the core graph model, and neither is introduced before its
-semantics are known.
+Focused frozen configurations currently define genome shape, initialization,
+mutation, and reproduction. A consolidated experiment-level `TPGConfig` and
+checkpointable `TPGState` remain Milestone 4 work. Neither belongs in the core
+graph model.
 
 ## Runtime composition
 
