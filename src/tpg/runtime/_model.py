@@ -53,6 +53,9 @@ class ProgramLike(Protocol):
     """Read-only program shape consumed by the executor."""
 
     @property
+    def id(self) -> int: ...
+
+    @property
     def instructions(self) -> tuple[InstructionLike, ...]: ...
 
 
@@ -96,4 +99,17 @@ class TeamLike(Protocol):
     """Read-only team shape consumed by the deterministic runtime."""
 
     @property
+    def id(self) -> int: ...
+
+    @property
     def learners(self) -> tuple[LearnerLike, ...]: ...
+
+
+class GraphLike(Protocol):
+    """Read-only graph shape consumed by validation and traversal."""
+
+    @property
+    def teams(self) -> tuple[TeamLike, ...]: ...
+
+    @property
+    def root_team_ids(self) -> tuple[int, ...]: ...

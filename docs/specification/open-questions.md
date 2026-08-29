@@ -13,21 +13,17 @@ protected operator policy documented in
 [Instructions, registers, and programs](instructions-and-programs.md). These are
 now reference-runtime contracts rather than open questions.
 
-## Required before Milestone 2: graph runtime
+## Resolved in Milestone 2: graph runtime
 
-1. **Cycle handling:** visited-team exclusion, hard step budget, both, or another
-   rule; and the fallback if no learner remains eligible.
-2. **Termination invariant:** must every root have some atomic path, must every
-   possible path terminate under policy, or is bounded fallback sufficient?
-3. **Root definition:** explicitly stored roots, teams with zero incoming learner
-   references, or a population-level property?
-4. **Orphans:** validation error, warning, retained evolutionary material, or
-   garbage collected structure?
-5. **Self-references:** valid cycle edges or prohibited structures?
-6. **Root selection:** one graph per root agent, caller-selected root, or a
-   deterministic graph-level default?
-7. **Learner sharing:** may the same learner ID belong to multiple teams, and if
-   so does mutation clone it or intentionally affect every owner?
+Milestone 2 fixes explicit stored roots; required root selection for multi-root
+graphs; visited-team reference exclusion; a hard traversal limit; at least one
+atomic learner per valid team; self-references as errors; non-self cycles as
+valid; and orphan teams as warnings rather than automatic deletion. Exact rules
+and the termination argument are documented in
+[Graph traversal and invariants](graph.md).
+
+Learner sharing remains representable, but mutation behavior for shared learners
+is still a Milestone 3 decision.
 
 ## Required before Milestone 3: evolution
 

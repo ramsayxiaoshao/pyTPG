@@ -29,9 +29,9 @@ Team(id, learners)
 TPGGraph(teams, root_team_ids)
 ```
 
-Tuples preserve order. Team learner order is therefore defined data even though
-the role of order in tie-breaking is unresolved. Team and program IDs exist to
-support stable references, inspection, genealogy, and versioned serialization.
+Tuples preserve order. Team learner order is therefore defined data and resolves
+equal-bid ties. Team and program IDs exist to support stable references,
+inspection, genealogy, and versioned serialization.
 
 ## Locally enforced invariants
 
@@ -50,3 +50,8 @@ support stable references, inspection, genealogy, and versioned serialization.
 Operator existence, operator arity, and register/input bounds require runtime
 configuration and are not constructor-level invariants. Milestone 1 enforces
 them through `ProgramExecutor.validate()` and before every execution.
+
+Graph-wide invariants requiring reachability and action semantics are enforced
+by `GraphValidator` in Milestone 2. In particular, every valid team has an atomic
+learner and direct self-references are rejected. Orphans produce warnings rather
+than constructor failures or automatic deletion.

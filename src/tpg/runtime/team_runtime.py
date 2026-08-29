@@ -8,6 +8,7 @@ from tpg.runtime._model import LearnerLike, TeamLike
 from tpg.runtime.config import RuntimeConfig
 from tpg.runtime.errors import TeamReferenceRequiresGraphError
 from tpg.runtime.executor import ProgramExecutor
+from tpg.runtime.inference import infer_register_count
 from tpg.runtime.operators import OperatorRegistry
 
 
@@ -32,17 +33,10 @@ class DeterministicRuntime:
     ) -> DeterministicRuntime:
         """Infer only shape configuration for the `Team.act` convenience API."""
 
-        register_count = 1
-        for learner in team.learners:
-            for instruction in learner.program.instructions:
-                register_count = max(register_count, instruction.destination + 1)
-                for operand in instruction.operands:
-                    if operand.kind == "register":
-                        register_count = max(register_count, operand.index + 1)
         return cls(
             RuntimeConfig(
                 input_size=len(observation),
-                register_count=register_count,
+                register_count=infer_register_count((team,)),
             ),
             operators,
         )
@@ -73,7 +67,7 @@ class DeterministicRuntime:
         if winner.action.kind != "atomic":
             msg = (
                 f"learner {winner.id} selected team {winner.action.team_id}; "
-                "team-reference traversal requires the Milestone 2 graph runtime"
+                "use GraphRuntime for team-reference traversal"
             )
             raise TeamReferenceRequiresGraphError(msg)
         return winner.action.action_id

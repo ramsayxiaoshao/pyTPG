@@ -6,9 +6,9 @@ pyTPG is a modular research framework for Tangled Program Graphs
 (TPG). The project is being developed specification-first so that algorithmic
 choices are explicit, testable, and reproducible.
 
-The repository currently contains **Milestone 1**: semantic specifications,
-typed core representations, and a deterministic reference runtime for programs
-and individual teams. Graph traversal and evolution are not implemented yet.
+The repository currently contains **Milestone 2**: semantic specifications,
+typed core representations, deterministic program and team execution, and safe
+TPG graph traversal. Evolution is not implemented yet.
 
 ## Installation
 
@@ -22,7 +22,7 @@ The distribution name is provisional until the first public release.
 
 ## Minimal example
 
-The following manually constructs a team whose learner bids on one observation:
+The following manually constructs and executes a one-team TPG graph:
 
 ```python
 from tpg.core import (
@@ -53,12 +53,12 @@ learner = Learner(LearnerID(0), program, AtomicAction(ActionID(0)))
 team = Team(TeamID(0), (learner,))
 graph = TPGGraph((team,), (team.id,))
 
-action = team.act((0.75,))
+action = graph.act((0.75,))
 assert action == ActionID(0)
 ```
 
-For recorded experiments, pass an explicit `RuntimeConfig` rather than relying
-on the shape inference provided by `Team.act`.
+For recorded experiments, pass an explicit `GraphRuntime(RuntimeConfig(...))`
+rather than relying on the shape inference provided by `graph.act`.
 
 ## Main features
 
@@ -68,7 +68,9 @@ on the shape inference provided by `Team.act`.
 - Extensible operator registry with protected deterministic arithmetic.
 - Strict observation, register, instruction, and operator validation.
 - Stable raw-bid selection with deterministic tie-breaking.
-- Draft specifications for graphs, mutation, and reproducibility.
+- Validated Team-reference traversal with cycle and step-limit safety.
+- Graph diagnostics, traversal traces, and structural summaries.
+- Draft specifications for mutation and reproducibility.
 
 ## Documentation
 
@@ -84,11 +86,17 @@ Run the manual deterministic-team example with:
 python examples/manual_team.py
 ```
 
+Run the cyclic graph traversal example with:
+
+```bash
+python examples/manual_graph.py
+```
+
 Environment integrations remain intentionally deferred until Milestone 5.
 
 ## Development status
 
-Current version: `0.1.0` (Milestone 1, pre-alpha).
+Current version: `0.1.0` (Milestone 2, deterministic core runtime, pre-alpha).
 
 Run the local checks with:
 
@@ -100,5 +108,3 @@ python -m build
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the development boundaries.
-
-

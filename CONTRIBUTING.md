@@ -22,5 +22,5 @@ pytest
 python -m build
 ```
 
-Milestone 1 intentionally excludes team-reference graph traversal, evolution,
-serialization, environment adapters, memory, and experiment logging.
+Milestone 2 intentionally excludes evolution, serialization, environment
+adapters, memory, and experiment logging.

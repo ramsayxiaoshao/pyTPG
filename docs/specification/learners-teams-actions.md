@@ -17,8 +17,8 @@ the same immutable learner value throughout a graph.
 opaque non-negative integer. An adapter is responsible for mapping it to an
 environment-specific action.
 
-`TeamReference(TeamID)` requests traversal to another team. References are
-resolved only through the containing `TPGGraph`; a learner never stores a direct
+`TeamReference(TeamID)` requests traversal to another team. `GraphRuntime`
+resolves it through the containing `TPGGraph`; a learner never stores a direct
 Python team object.
 
 ## Bidding and team selection
@@ -37,9 +37,10 @@ winner.
 
 `DeterministicRuntime.act()` returns the winning `AtomicAction.action_id`. If the
 winner contains a `TeamReference`, the Milestone 1 runtime raises
-`TeamReferenceRequiresGraphError`; it MUST NOT guess a traversal policy. Action
-eligibility during traversal, cycle handling, learner sharing, and memory
-ownership remain unresolved for later milestones.
+`TeamReferenceRequiresGraphError`; it MUST NOT guess a traversal policy. The
+graph runtime defines reference eligibility and cycle handling in
+[Graph traversal and invariants](graph.md). Learner sharing and memory ownership
+remain unresolved for later milestones.
 
 `Team.act(observation)` is the low-level convenience form. It infers the smallest
 register count capable of addressing the team's existing instructions and takes

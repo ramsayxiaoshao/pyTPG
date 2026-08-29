@@ -1,13 +1,27 @@
 """Immutable aggregate for a structurally valid Tangled Program Graph."""
 
+from __future__ import annotations
+
+from collections.abc import Sequence
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from tpg.core._validation import require_non_negative_integer
 from tpg.core.action import TeamReference
-from tpg.core.identifiers import LearnerID, ProgramID, TeamID
+from tpg.core.identifiers import ActionID, LearnerID, ProgramID, TeamID
 from tpg.core.learner import Learner
 from tpg.core.program import Program
 from tpg.core.team import Team
+
+if TYPE_CHECKING:
+    from tpg.runtime import (
+        GraphRuntime,
+        GraphSummary,
+        GraphValidationReport,
+        OperatorRegistry,
+        RuntimeConfig,
+        TraversalResult,
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -34,7 +48,6 @@ class TPGGraph:
             raise TypeError("graph teams contain an unsupported value")
 
         teams_by_id = self._index_teams()
-        # print("teams_by_id", teams_by_id)
         self._check_roots(teams_by_id)
         self._check_references(teams_by_id)
         self._check_reused_entities()
@@ -91,6 +104,57 @@ class TPGGraph:
                     msg = f"program ID {program.id} denotes unequal values"
                     raise ValueError(msg)
                 programs_by_id[program.id] = program
+
+    def validate(
+        self,
+        config: RuntimeConfig | None = None,
+        *,
+        operators: OperatorRegistry | None = None,
+    ) -> GraphValidationReport:
+        """Collect graph diagnostics, inferring dimensions when omitted."""
+
+        from tpg.runtime.graph_validation import GraphValidator
+
+        return GraphValidator(config, operators).validate(self)
+
+    def summary(self) -> GraphSummary:
+        """Return deterministic ID-deduplicated structural statistics."""
+
+        from tpg.runtime.inspection import summarize_graph
+
+        return summarize_graph(self)
+
+    def traverse(
+        self,
+        observation: Sequence[float],
+        *,
+        root_team_id: TeamID | None = None,
+        runtime: GraphRuntime | None = None,
+    ) -> TraversalResult:
+        """Execute graph traversal and retain an inspectable decision trace."""
+
+        if runtime is None:
+            from tpg.runtime.graph_runtime import GraphRuntime
+
+            runtime = GraphRuntime.infer_for_graph(self, observation)
+        return runtime.traverse(self, observation, root_team_id=root_team_id)
+
+    def act(
+        self,
+        observation: Sequence[float],
+        *,
+        root_team_id: TeamID | None = None,
+        runtime: GraphRuntime | None = None,
+    ) -> ActionID:
+        """Return the terminal atomic action selected by graph traversal."""
+
+        return ActionID(
+            self.traverse(
+                observation,
+                root_team_id=root_team_id,
+                runtime=runtime,
+            ).action_id
+        )
 
 
 __all__ = ["TPGGraph"]

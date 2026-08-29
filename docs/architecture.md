@@ -29,7 +29,7 @@ semantics without knowing how observations or actions are produced externally.
 ```text
 src/tpg/
     core/                 # Immutable domain model
-    runtime/              # Deterministic reference execution
+    runtime/              # Program, team, and graph reference execution
     evolution/            # Reserved for Milestone 3
     evaluation/           # Reserved for evaluator abstractions
     memory/               # Reserved for memory composition
@@ -87,7 +87,9 @@ semantics are known.
 `OperatorRegistry` owns named fixed-arity operators without global mutation.
 `ProgramExecutor` validates and executes a single program.
 `DeterministicRuntime` independently evaluates every learner and selects a team
-winner. These layers know nothing about environments or evolutionary state.
+winner. `GraphValidator` applies graph-wide invariants, while `GraphRuntime`
+performs bounded, visited-aware traversal and produces traces. These layers know
+nothing about environments or evolutionary state.
 
 The runtime consumes immutable core values through read-only structural
 `Protocol` contracts and does not import `tpg.core`. `Team.act` is a convenience

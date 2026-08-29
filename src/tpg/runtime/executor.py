@@ -47,7 +47,46 @@ class ProgramExecutor:
         """Validate all configuration-dependent instruction constraints."""
 
         for position, instruction in enumerate(program.instructions):
-            self._validate_instruction(instruction, position)
+            self.validate_instruction(instruction, position)
+
+    def validate_instruction(
+        self,
+        instruction: InstructionLike,
+        position: int = 0,
+    ) -> None:
+        """Validate one instruction and retain its program position in errors."""
+
+        operator = self.operators.resolve(instruction.operator)
+        if len(instruction.operands) != operator.arity:
+            msg = (
+                f"instruction {position} operator {operator.name!r} expects "
+                f"{operator.arity} operands, got {len(instruction.operands)}"
+            )
+            raise OperatorArityError(msg)
+        if instruction.destination >= self.config.register_count:
+            msg = (
+                f"instruction {position} destination register "
+                f"{instruction.destination} is outside "
+                f"[0, {self.config.register_count})"
+            )
+            raise InvalidInstructionError(msg)
+
+        for operand in instruction.operands:
+            if operand.kind == "input" and operand.index >= self.config.input_size:
+                msg = (
+                    f"instruction {position} input index {operand.index} is outside "
+                    f"[0, {self.config.input_size})"
+                )
+                raise InvalidInstructionError(msg)
+            if (
+                operand.kind == "register"
+                and operand.index >= self.config.register_count
+            ):
+                msg = (
+                    f"instruction {position} register operand {operand.index} is "
+                    f"outside [0, {self.config.register_count})"
+                )
+                raise InvalidInstructionError(msg)
 
     def execute(
         self,
@@ -104,43 +143,6 @@ class ProgramExecutor:
                 raise InvalidObservationError(msg)
             normalized.append(converted)
         return tuple(normalized)
-
-    def _validate_instruction(
-        self,
-        instruction: InstructionLike,
-        position: int,
-    ) -> None:
-        operator = self.operators.resolve(instruction.operator)
-        if len(instruction.operands) != operator.arity:
-            msg = (
-                f"instruction {position} operator {operator.name!r} expects "
-                f"{operator.arity} operands, got {len(instruction.operands)}"
-            )
-            raise OperatorArityError(msg)
-        if instruction.destination >= self.config.register_count:
-            msg = (
-                f"instruction {position} destination register "
-                f"{instruction.destination} is outside "
-                f"[0, {self.config.register_count})"
-            )
-            raise InvalidInstructionError(msg)
-
-        for operand in instruction.operands:
-            if operand.kind == "input" and operand.index >= self.config.input_size:
-                msg = (
-                    f"instruction {position} input index {operand.index} is outside "
-                    f"[0, {self.config.input_size})"
-                )
-                raise InvalidInstructionError(msg)
-            if (
-                operand.kind == "register"
-                and operand.index >= self.config.register_count
-            ):
-                msg = (
-                    f"instruction {position} register operand {operand.index} is "
-                    f"outside [0, {self.config.register_count})"
-                )
-                raise InvalidInstructionError(msg)
 
     @staticmethod
     def _resolve_operand(

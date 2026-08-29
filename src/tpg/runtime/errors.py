@@ -34,17 +34,37 @@ class OperatorExecutionError(TPGExecutionError):
 
 
 class TeamReferenceRequiresGraphError(TPGExecutionError):
-    """A winning team reference cannot be resolved by the Milestone 1 runtime."""
+    """A single-team runtime cannot resolve a winning team reference."""
+
+
+class RootSelectionError(TPGExecutionError):
+    """A traversal root is missing, ambiguous, or not declared by the graph."""
+
+
+class MissingTeamError(TPGExecutionError):
+    """Traversal encounters a team ID absent from the graph."""
+
+
+class NoEligibleLearnerError(TPGExecutionError):
+    """Visited-edge exclusion leaves a team without an eligible learner."""
+
+
+class TraversalLimitExceededError(TPGExecutionError):
+    """Graph traversal reaches its configured deterministic step limit."""
 
 
 __all__ = [
     "InvalidInstructionError",
     "InvalidObservationError",
+    "MissingTeamError",
+    "NoEligibleLearnerError",
     "OperatorArityError",
     "OperatorExecutionError",
     "RegisterAccessError",
+    "RootSelectionError",
     "RuntimeConfigurationError",
     "TPGExecutionError",
     "TeamReferenceRequiresGraphError",
+    "TraversalLimitExceededError",
     "UnknownOperatorError",
 ]

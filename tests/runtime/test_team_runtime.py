@@ -95,7 +95,7 @@ def test_winning_team_reference_requires_graph_runtime() -> None:
     )
     team = Team(TeamID(0), (learner,))
 
-    with pytest.raises(TeamReferenceRequiresGraphError, match="Milestone 2"):
+    with pytest.raises(TeamReferenceRequiresGraphError, match="GraphRuntime"):
         DeterministicRuntime(RuntimeConfig(0, 1)).act(team, ())
 
 

@@ -1,6 +1,6 @@
 # TPG semantic specification
 
-Status: **Milestone 1 runtime semantics implemented; later milestones draft**.
+Status: **Milestone 2 graph-runtime semantics implemented; later milestones draft**.
 
 These documents separate settled structural rules from algorithm choices that
 must be resolved before the corresponding implementation milestone. Normative
