@@ -39,7 +39,7 @@ src/tpg/
     metadata.py           # Recorded experiment provenance
     experiment.py         # Reproducible run/resume composition
     memory/               # Reserved for memory composition
-    adapters/             # Reserved for optional environments
+    adapters/             # Optional environment boundaries and fitness adapters
 docs/
     specification/        # Normative algorithm semantics and open questions
 tests/                    # Fast unit, property, regression, integration tests
@@ -47,10 +47,22 @@ benchmarks/               # Profiling workloads, not correctness tests
 examples/                 # Small runnable examples
 ```
 
-Milestone 4 publishes `core`, the deterministic `runtime`, immutable
+Milestone 5 publishes `core`, the deterministic `runtime`, immutable
 evolutionary state and operators, sequential evaluation, research configuration,
-callbacks, statistics, metadata, and versioned JSON artifacts. Memory and
-adapter packages remain boundary markers.
+callbacks, statistics, metadata, versioned JSON artifacts, and an optional
+Gymnasium adapter. Memory remains a boundary marker.
+
+## Environment integration
+
+`GymnasiumAdapter` validates the modern reset/step API, flattens fixed-shape
+numeric observations, maps zero-based atomic action IDs to scalar Discrete
+actions, and owns the environment lifecycle. `GymnasiumFitness` composes that
+adapter with the existing `FitnessFunction` protocol; no Gymnasium branch was
+added to the evolution engine.
+
+The Gymnasium import is lazy and available only through the `gymnasium` package
+extra. Mock-environment tests exercise the adapter without the extra, while a
+small CartPole integration test runs when it is installed.
 
 ## Core object model
 

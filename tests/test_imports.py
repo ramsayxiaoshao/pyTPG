@@ -4,7 +4,7 @@
 def test_top_level_package_imports() -> None:
     import tpg
 
-    assert tpg.__version__ == "0.2.1"
+    assert tpg.__version__ == "0.3.0"
     assert tpg.__all__ == ["__version__"]
 
 
@@ -178,3 +178,26 @@ def test_research_infrastructure_public_apis() -> None:
     assert ExperimentResult.__name__ == "ExperimentResult"
     assert callable(run_experiment)
     assert callable(resume_experiment)
+
+
+def test_gymnasium_adapter_public_api_imports_without_optional_dependency() -> None:
+    from tpg import adapters
+
+    assert set(adapters.__all__) == {
+        "GymnasiumAdapter",
+        "GymnasiumDependencyError",
+        "GymnasiumEnvironment",
+        "GymnasiumEnvironmentFactory",
+        "GymnasiumEpisodeResult",
+        "GymnasiumEpisodeStateError",
+        "GymnasiumEvaluationConfig",
+        "GymnasiumEvaluationError",
+        "GymnasiumFitness",
+        "GymnasiumIntegrationError",
+        "GymnasiumReset",
+        "GymnasiumStep",
+        "InvalidGymnasiumActionError",
+        "InvalidGymnasiumTransitionError",
+        "UnsupportedGymnasiumSpaceError",
+        "make_gymnasium_environment",
+    }

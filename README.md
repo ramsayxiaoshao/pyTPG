@@ -6,9 +6,9 @@ pyTPG is a modular research framework for Tangled Program Graphs
 (TPG). The project is being developed specification-first so that algorithmic
 choices are explicit, testable, and reproducible.
 
-The repository currently contains **Milestone 4**: deterministic runtime and
-evolution plus versioned, reproducible research infrastructure for configuration,
-seeds, metadata, statistics, logging, serialization, and checkpoint continuation.
+The repository currently contains **Milestone 5**: deterministic runtime and
+evolution, reproducible research infrastructure, and optional Gymnasium
+integration through a strict environment adapter.
 
 ## Installation
 
@@ -16,6 +16,12 @@ For development, use Python 3.10 or newer:
 
 ```bash
 python -m pip install -e ".[dev]"
+```
+
+Install the optional Gymnasium integration with:
+
+```bash
+python -m pip install -e ".[gymnasium]"
 ```
 
 The distribution name is provisional until the first public release.
@@ -80,6 +86,9 @@ rather than relying on the shape inference provided by `graph.act`.
 - Recorded Python/NumPy/package/platform experiment metadata.
 - Versioned JSON graph serialization and evaluated-boundary checkpoints.
 - Exact deterministic continuation without re-evaluating saved fitness.
+- Lazy optional Gymnasium integration with no environment dependency in core.
+- Reproducible multi-episode fitness with common seeds and a hard rollout bound.
+- Strict modern `terminated`/`truncated` handling and Discrete action mapping.
 
 ## Documentation
 
@@ -113,11 +122,15 @@ Run, save, load, and resume a reproducible experiment with:
 python examples/reproducible_experiment.py
 ```
 
-Environment integrations remain intentionally deferred until Milestone 5.
+After installing the Gymnasium extra, run the small CartPole evolution with:
+
+```bash
+python examples/evolve_cartpole.py
+```
 
 ## Development status
 
-Current version: `0.2.1` (Milestone 4, reproducible research infrastructure,
+Current version: `0.3.0` (Milestone 5, optional Gymnasium integration,
 pre-alpha).
 
 Run the local checks with:

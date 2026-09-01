@@ -22,6 +22,8 @@ pytest
 python -m build
 ```
 
-Milestone 4 intentionally excludes environment adapters, memory, parallel
-evaluation, arbitrary stochastic-evaluator checkpoints, persistent genealogy,
-custom-operator schema registration, and serialization migrations.
+Milestone 5 intentionally supports only scalar Discrete actions and fixed-shape
+numeric observations. Composite-space transforms, vector environments, memory,
+parallel evaluation, arbitrary stochastic-evaluator checkpoints, persistent
+genealogy, custom-operator schema registration, and serialization migrations
+remain outside this milestone.

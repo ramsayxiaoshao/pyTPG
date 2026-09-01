@@ -55,3 +55,15 @@ def test_core_does_not_import_higher_layers() -> None:
         for module in imports
         if any(module == item or module.startswith(f"{item}.") for item in forbidden)
     }
+
+
+def test_environment_packages_are_confined_to_adapters() -> None:
+    protected_layers = ("runtime", "core", "evolution", "evaluation")
+
+    for layer in protected_layers:
+        imports = imported_modules(PACKAGE_ROOT / layer)
+        assert not {
+            module
+            for module in imports
+            if module == "gymnasium" or module.startswith("gymnasium.")
+        }

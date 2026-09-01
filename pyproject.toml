@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pytpg"
-version = "0.2.1"
+version = "0.3.0"
 description = "A modular research framework for Tangled Program Graphs"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -23,6 +23,7 @@ classifiers = [
 dependencies = ["numpy>=2.0"]
 
 [project.optional-dependencies]
+gymnasium = ["gymnasium>=1.0,<2"]
 dev = [
     "build>=1.2",
     "pyright[nodejs]>=1.1.380",
