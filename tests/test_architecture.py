@@ -24,6 +24,7 @@ def test_runtime_does_not_import_core_or_higher_layers() -> None:
         "tpg.evolution",
         "tpg.evaluation",
         "tpg.memory",
+        "tpg.multiagent",
         "tpg.adapters",
         "tpg.serialization",
         "tpg.callbacks",
@@ -43,6 +44,7 @@ def test_core_does_not_import_higher_layers() -> None:
         "tpg.evolution",
         "tpg.evaluation",
         "tpg.memory",
+        "tpg.multiagent",
         "tpg.adapters",
         "tpg.serialization",
         "tpg.callbacks",
@@ -58,7 +60,14 @@ def test_core_does_not_import_higher_layers() -> None:
 
 
 def test_environment_packages_are_confined_to_adapters() -> None:
-    protected_layers = ("runtime", "core", "evolution", "evaluation")
+    protected_layers = (
+        "runtime",
+        "core",
+        "evolution",
+        "evaluation",
+        "memory",
+        "multiagent",
+    )
 
     for layer in protected_layers:
         imports = imported_modules(PACKAGE_ROOT / layer)
@@ -67,3 +76,40 @@ def test_environment_packages_are_confined_to_adapters() -> None:
             for module in imports
             if module == "gymnasium" or module.startswith("gymnasium.")
         }
+
+
+def test_memory_depends_only_on_core_and_runtime_layers() -> None:
+    forbidden = (
+        "tpg.adapters",
+        "tpg.callbacks",
+        "tpg.evaluation",
+        "tpg.evolution",
+        "tpg.multiagent",
+        "tpg.serialization",
+    )
+
+    imports = imported_modules(PACKAGE_ROOT / "memory")
+
+    assert not {
+        module
+        for module in imports
+        if any(module == item or module.startswith(f"{item}.") for item in forbidden)
+    }
+
+
+def test_multiagent_depends_only_on_core_runtime_and_memory() -> None:
+    forbidden = (
+        "tpg.adapters",
+        "tpg.callbacks",
+        "tpg.evaluation",
+        "tpg.evolution",
+        "tpg.serialization",
+    )
+
+    imports = imported_modules(PACKAGE_ROOT / "multiagent")
+
+    assert not {
+        module
+        for module in imports
+        if any(module == item or module.startswith(f"{item}.") for item in forbidden)
+    }

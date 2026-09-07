@@ -85,6 +85,12 @@ class GraphRuntime:
         self.max_steps = max_steps
         self.validate_before_execution = validate_before_execution
 
+    @property
+    def config(self) -> RuntimeConfig:
+        """Expose the immutable program-execution shape configuration."""
+
+        return self.runtime.executor.config
+
     @classmethod
     def infer_for_graph(
         cls,

@@ -4,7 +4,7 @@
 def test_top_level_package_imports() -> None:
     import tpg
 
-    assert tpg.__version__ == "0.3.0"
+    assert tpg.__version__ == "0.5.0"
     assert tpg.__all__ == ["__version__"]
 
 
@@ -200,4 +200,45 @@ def test_gymnasium_adapter_public_api_imports_without_optional_dependency() -> N
         "InvalidGymnasiumTransitionError",
         "UnsupportedGymnasiumSpaceError",
         "make_gymnasium_environment",
+    }
+
+
+def test_memory_public_api_imports() -> None:
+    from tpg import memory
+
+    assert set(memory.__all__) == {
+        "Memory",
+        "MemoryConfigurationError",
+        "MemoryFactory",
+        "MemorySnapshot",
+        "MemoryStateError",
+        "MemoryUpdate",
+        "MemoryUpdater",
+        "NullMemory",
+        "ObservationHistoryMemory",
+        "RegisterMemory",
+        "StatefulGraphRuntime",
+        "StatefulTraversalResult",
+        "TPGMemoryError",
+    }
+
+
+def test_multiagent_public_api_imports() -> None:
+    from tpg import multiagent
+
+    assert set(multiagent.__all__) == {
+        "AgentAction",
+        "AgentID",
+        "AgentSpec",
+        "IndependentMultiAgentRuntime",
+        "IndependentStep",
+        "JointActionCodec",
+        "MultiAgentActionError",
+        "MultiAgentConfigurationError",
+        "MultiAgentObservationError",
+        "MultiAgentStateError",
+        "SharedControlRuntime",
+        "SharedControlStep",
+        "TPGAgentController",
+        "TPGMultiAgentError",
     }

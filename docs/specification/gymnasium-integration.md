@@ -78,3 +78,12 @@ that signal.
 Environment implementation details can still introduce nondeterminism. The
 contract here controls TPG randomness and reset seeds; reproducibility claims
 for a particular task additionally depend on that environment's own contract.
+
+## Stateful extension
+
+`GymnasiumFitness` MAY receive a `MemoryFactory`. One fresh memory component is
+created for each graph evaluation and reset before every episode. The graph then
+receives the adapter's flattened observation followed by the current memory
+values. Omitting the factory composes `NullMemory` and preserves the stateless
+Milestone 5 result. Exact memory semantics are specified in
+[Stateful memory](stateful-memory.md).

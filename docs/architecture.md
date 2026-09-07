@@ -38,7 +38,8 @@ src/tpg/
     seed.py               # Named deterministic random streams
     metadata.py           # Recorded experiment provenance
     experiment.py         # Reproducible run/resume composition
-    memory/               # Reserved for memory composition
+    memory/               # Episode-scoped state and graph-runtime composition
+    multiagent/           # Independent and centralized controller composition
     adapters/             # Optional environment boundaries and fitness adapters
 docs/
     specification/        # Normative algorithm semantics and open questions
@@ -47,10 +48,13 @@ benchmarks/               # Profiling workloads, not correctness tests
 examples/                 # Small runnable examples
 ```
 
-Milestone 5 publishes `core`, the deterministic `runtime`, immutable
+Milestone 7 publishes `core`, the deterministic `runtime`, immutable
 evolutionary state and operators, sequential evaluation, research configuration,
 callbacks, statistics, metadata, versioned JSON artifacts, and an optional
-Gymnasium adapter. Memory remains a boundary marker.
+Gymnasium adapter. Stateful behavior is added through reusable memory components
+without creating stateful copies of core values or graph execution. Multi-agent
+behavior composes those same graphs and stateful runtimes without duplicating
+the core, traversal, or evolution engines.
 
 ## Environment integration
 
@@ -63,6 +67,36 @@ added to the evolution engine.
 The Gymnasium import is lazy and available only through the `gymnasium` package
 extra. Mock-environment tests exercise the adapter without the extra, while a
 small CartPole integration test runs when it is installed.
+
+## Stateful memory composition
+
+The `memory` layer depends only on public core and runtime contracts. A
+`StatefulGraphRuntime` owns an episode-scoped `Memory`, appends its snapshot to
+the raw observation, delegates unchanged traversal to `GraphRuntime`, and then
+updates memory once after a successful atomic action. Runtime and core never
+import memory.
+
+`NullMemory` preserves stateless behavior, `RegisterMemory` supplies validated
+fixed-width state with pluggable updates, and `ObservationHistoryMemory` composes
+register memory into a deterministic history. Gymnasium fitness accepts a
+memory factory and resets the resulting component before every episode. This
+keeps state out of immutable genomes and prevents population members from
+sharing live episode state.
+
+## Multi-agent composition
+
+The `multiagent` layer depends only on core, runtime, and memory. An
+`IndependentMultiAgentRuntime` owns an ordered tuple of agent controllers and
+supports heterogeneous observation widths, scalar action counts, graphs, and
+memory. Multiple controllers may share an immutable graph, but never a live
+runtime or memory owner. Synchronous independent steps snapshot all memories and
+roll the complete group back if any controller fails.
+
+`SharedControlRuntime` concatenates observations in declared roster order and
+traverses one graph once. A mixed-radix codec reversibly maps the graph's scalar
+atomic action to one scalar action per agent, including heterogeneous action
+counts. The layer contains no environment, reward, fitness, or mutation policy;
+adapters and experiments compose those decisions at their existing boundaries.
 
 ## Core object model
 

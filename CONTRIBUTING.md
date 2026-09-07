@@ -22,8 +22,11 @@ pytest
 python -m build
 ```
 
-Milestone 5 intentionally supports only scalar Discrete actions and fixed-shape
-numeric observations. Composite-space transforms, vector environments, memory,
-parallel evaluation, arbitrary stochastic-evaluator checkpoints, persistent
+Milestone 7 intentionally uses a fixed synchronous agent roster. Independent
+controllers isolate live episode state; centralized shared control concatenates
+observations and uses a mixed-radix scalar joint action. Dynamic or turn-based
+rosters, per-agent early termination, PettingZoo integration, partial
+observations, continuous/composite actions, coevolution, credit assignment,
+centralized-training/decentralized-execution, parallel evaluation, persistent
 genealogy, custom-operator schema registration, and serialization migrations
 remain outside this milestone.

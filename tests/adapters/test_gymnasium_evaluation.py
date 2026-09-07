@@ -22,6 +22,8 @@ from tpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,
+    InputIndex,
+    InputOperand,
     Instruction,
     Learner,
     LearnerID,
@@ -33,6 +35,8 @@ from tpg.core import (
     TeamID,
     TPGGraph,
 )
+from tpg.memory import ObservationHistoryMemory
+from tpg.runtime import GraphValidationError
 
 
 @dataclass
@@ -86,6 +90,38 @@ class EpisodeEnvironment:
         self.closed = True
 
 
+class RecallEnvironment:
+    action_space = DiscreteSpace()
+    observation_space = NumericSpace()
+
+    def __init__(self) -> None:
+        self.signal = 0.0
+        self.steps = 0
+        self.closed = False
+
+    def reset(
+        self,
+        *,
+        seed: int | None = None,
+        options: Mapping[str, object] | None = None,
+    ) -> object:
+        del options
+        self.signal = 1.0 if cast(int, seed) % 2 == 0 else -1.0
+        self.steps = 0
+        return np.array([self.signal]), {}
+
+    def step(self, action: object) -> object:
+        self.steps += 1
+        if self.steps == 1:
+            return np.array([0.0]), 0.0, False, False, {}
+        expected_action = 1 if self.signal > 0.0 else 0
+        reward = 1.0 if action == expected_action else 0.0
+        return np.array([0.0]), reward, True, False, {}
+
+    def close(self) -> None:
+        self.closed = True
+
+
 def constant_graph(action_id: int) -> TPGGraph:
     instruction = Instruction(
         OperatorName("identity"),
@@ -98,6 +134,37 @@ def constant_graph(action_id: int) -> TPGGraph:
         AtomicAction(ActionID(action_id)),
     )
     team = Team(TeamID(0), (learner,))
+    return TPGGraph((team,), (team.id,))
+
+
+def recall_graph() -> TPGGraph:
+    negative = Program(
+        ProgramID(0),
+        (
+            Instruction(
+                OperatorName("subtract"),
+                RegisterIndex(0),
+                (ConstantOperand(0.0), InputOperand(InputIndex(1))),
+            ),
+        ),
+    )
+    positive = Program(
+        ProgramID(1),
+        (
+            Instruction(
+                OperatorName("identity"),
+                RegisterIndex(0),
+                (InputOperand(InputIndex(1)),),
+            ),
+        ),
+    )
+    team = Team(
+        TeamID(0),
+        (
+            Learner(LearnerID(0), negative, AtomicAction(ActionID(0))),
+            Learner(LearnerID(1), positive, AtomicAction(ActionID(1))),
+        ),
+    )
     return TPGGraph((team,), (team.id,))
 
 
@@ -168,6 +235,52 @@ def test_fitness_hard_step_limit_is_inspectable() -> None:
     assert result.truncated is False
     assert result.step_limit_reached is True
     assert environment.closed is True
+
+
+def test_fitness_composes_fresh_episode_memory_without_rollout_duplication() -> None:
+    environments: list[RecallEnvironment] = []
+    memory_creations = 0
+
+    def environment_factory() -> GymnasiumEnvironment:
+        environment = RecallEnvironment()
+        environments.append(environment)
+        return cast(GymnasiumEnvironment, environment)
+
+    def memory_factory() -> ObservationHistoryMemory:
+        nonlocal memory_creations
+        memory_creations += 1
+        return ObservationHistoryMemory(1)
+
+    fitness = GymnasiumFitness(
+        environment_factory,
+        GymnasiumEvaluationConfig((2, 3), max_episode_steps=2),
+        memory_factory=memory_factory,
+    )
+
+    assert fitness(recall_graph()) == 1.0
+    assert fitness(recall_graph()) == 1.0
+    assert memory_creations == 2
+    assert len(environments) == 2
+    assert all(environment.closed for environment in environments)
+
+
+def test_stateful_graph_requires_memory_channels_in_fitness() -> None:
+    fitness = GymnasiumFitness(
+        lambda: cast(GymnasiumEnvironment, RecallEnvironment()),
+        GymnasiumEvaluationConfig((2,), max_episode_steps=2),
+    )
+
+    with pytest.raises(GraphValidationError, match="invalid_instruction"):
+        fitness(recall_graph())
+
+
+def test_fitness_rejects_non_callable_memory_factory() -> None:
+    with pytest.raises(GymnasiumEvaluationError, match="memory_factory"):
+        GymnasiumFitness(
+            lambda: cast(GymnasiumEnvironment, RecallEnvironment()),
+            GymnasiumEvaluationConfig((2,)),
+            memory_factory=cast(object, 1),  # type: ignore[arg-type]
+        )
 
 
 def test_invalid_graph_action_closes_environment_before_failure() -> None:

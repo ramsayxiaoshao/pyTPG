@@ -11,6 +11,12 @@ from tpg.adapters.gymnasium import (
     GymnasiumEnvironmentFactory,
 )
 from tpg.core import TPGGraph
+from tpg.memory import (
+    Memory,
+    MemoryFactory,
+    NullMemory,
+    StatefulGraphRuntime,
+)
 from tpg.runtime import GraphRuntime
 from tpg.seed import SeedManager
 
@@ -114,19 +120,24 @@ class GymnasiumEpisodeResult:
 class GymnasiumFitness:
     """Mean episodic return with common random seeds across all graphs."""
 
-    __slots__ = ("config", "environment_factory")
+    __slots__ = ("config", "environment_factory", "memory_factory")
 
     def __init__(
         self,
         environment_factory: GymnasiumEnvironmentFactory,
         config: GymnasiumEvaluationConfig,
+        *,
+        memory_factory: MemoryFactory | None = None,
     ) -> None:
         if not callable(environment_factory):
             raise GymnasiumEvaluationError("environment_factory must be callable")
         if not isinstance(config, GymnasiumEvaluationConfig):
             raise GymnasiumEvaluationError("config must be a GymnasiumEvaluationConfig")
+        if memory_factory is not None and not callable(memory_factory):
+            raise GymnasiumEvaluationError("memory_factory must be callable or None")
         self.environment_factory = environment_factory
         self.config = config
+        self.memory_factory = memory_factory
 
     def __call__(self, graph: TPGGraph) -> float:
         """Return mean total reward, suitable for `SequentialEvaluator`."""
@@ -142,36 +153,50 @@ class GymnasiumFitness:
         adapter = GymnasiumAdapter(self.environment_factory())
         with adapter:
             self._validate_graph_actions(graph, adapter.n_actions)
-            runtime: GraphRuntime | None = None
+            memory: Memory = (
+                NullMemory() if self.memory_factory is None else self.memory_factory()
+            )
+            controller: StatefulGraphRuntime | None = None
             results: list[GymnasiumEpisodeResult] = []
             for seed in self.config.episode_seeds:
                 reset = adapter.reset(seed=seed)
-                if runtime is None:
+                if controller is None:
+                    initial_memory = memory.reset()
                     runtime = GraphRuntime.infer_for_graph(
                         graph,
-                        reset.observation,
+                        reset.observation + initial_memory.values,
                         validate_before_execution=False,
                     )
                     runtime.validate(graph).require_valid()
+                    controller = StatefulGraphRuntime(
+                        runtime,
+                        memory,
+                        adapter.input_size,
+                    )
+                controller.reset_episode()
                 total_reward = 0.0
                 observation = reset.observation
                 terminated = False
                 truncated = False
                 steps = 0
-                for _ in range(self.config.max_episode_steps):
-                    action_id = runtime.act(graph, observation)
-                    transition = adapter.step(action_id)
-                    steps += 1
-                    total_reward += transition.reward
-                    if not math.isfinite(total_reward):
-                        raise GymnasiumEvaluationError(
-                            "accumulated episode reward is not finite"
-                        )
-                    observation = transition.observation
-                    terminated = transition.terminated
-                    truncated = transition.truncated
-                    if transition.done:
-                        break
+                try:
+                    for _ in range(self.config.max_episode_steps):
+                        action_id = controller.act(graph, observation)
+                        transition = adapter.step(action_id)
+                        steps += 1
+                        total_reward += transition.reward
+                        if not math.isfinite(total_reward):
+                            raise GymnasiumEvaluationError(
+                                "accumulated episode reward is not finite"
+                            )
+                        observation = transition.observation
+                        terminated = transition.terminated
+                        truncated = transition.truncated
+                        if transition.done:
+                            break
+                finally:
+                    if controller.episode_active:
+                        controller.end_episode()
                 step_limit_reached = not (terminated or truncated)
                 results.append(
                     GymnasiumEpisodeResult(

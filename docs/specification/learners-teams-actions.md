@@ -40,7 +40,8 @@ winner contains a `TeamReference`, the Milestone 1 runtime raises
 `TeamReferenceRequiresGraphError`; it MUST NOT guess a traversal policy. The
 graph runtime defines reference eligibility and cycle handling in
 [Graph traversal and invariants](graph.md). Learner sharing and memory ownership
-remain unresolved for later milestones.
+are independent: Milestone 6 memory belongs to a stateful controller episode,
+not to a learner or team. See [Stateful memory](stateful-memory.md).
 
 `Team.act(observation)` is the low-level convenience form. It infers the smallest
 register count capable of addressing the team's existing instructions and takes

@@ -6,9 +6,9 @@ pyTPG is a modular research framework for Tangled Program Graphs
 (TPG). The project is being developed specification-first so that algorithmic
 choices are explicit, testable, and reproducible.
 
-The repository currently contains **Milestone 5**: deterministic runtime and
-evolution, reproducible research infrastructure, and optional Gymnasium
-integration through a strict environment adapter.
+The repository currently contains **Milestone 7**: deterministic runtime and
+evolution, reproducible research infrastructure, optional Gymnasium integration,
+episode-scoped stateful TPG, and deterministic multi-agent composition.
 
 ## Installation
 
@@ -89,6 +89,12 @@ rather than relying on the shape inference provided by `graph.act`.
 - Lazy optional Gymnasium integration with no environment dependency in core.
 - Reproducible multi-episode fitness with common seeds and a hard rollout bound.
 - Strict modern `terminated`/`truncated` handling and Discrete action mapping.
+- Explicit memory reset, snapshot, restore, and atomic update contracts.
+- Null, fixed-register, and oldest-to-newest observation-history memory.
+- Stateful traversal by observation augmentation without duplicated graph logic.
+- Independent and heterogeneous controllers with transactional joint steps.
+- Safe immutable-graph parameter sharing with per-agent episode state.
+- Centralized shared control with mixed-radix heterogeneous joint actions.
 
 ## Documentation
 
@@ -128,10 +134,21 @@ After installing the Gymnasium extra, run the small CartPole evolution with:
 python examples/evolve_cartpole.py
 ```
 
+Run the three-step delayed-signal memory example with:
+
+```bash
+python examples/stateful_delayed_signal.py
+```
+
+Run heterogeneous independent and centralized shared control with:
+
+```bash
+python examples/multiagent_control.py
+```
+
 ## Development status
 
-Current version: `0.3.0` (Milestone 5, optional Gymnasium integration,
-pre-alpha).
+Current version: `0.5.0` (Milestone 7, multi-agent TPG, pre-alpha).
 
 Run the local checks with:
 

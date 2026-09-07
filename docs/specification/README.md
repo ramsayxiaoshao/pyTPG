@@ -1,6 +1,6 @@
 # TPG semantic specification
 
-Status: **Milestone 5 Gymnasium integration implemented**.
+Status: **Milestone 7 multi-agent TPG implemented**.
 
 These documents separate settled structural rules from algorithm choices that
 must be resolved before the corresponding implementation milestone. Normative
@@ -15,6 +15,8 @@ Text marked **unresolved** is not an implementation contract.
 - [Mutation semantics](mutation.md)
 - [Reproducible research infrastructure](research-infrastructure.md)
 - [Gymnasium integration](gymnasium-integration.md)
+- [Stateful memory](stateful-memory.md)
+- [Multi-agent TPG](multi-agent.md)
 - [Open algorithmic questions](open-questions.md)
 
 Specification changes that alter observable behavior require regression tests

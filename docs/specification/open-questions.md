@@ -53,6 +53,43 @@ Portable custom-operator registries, arbitrary stochastic evaluator state,
 callback-private state, full persistent genealogy, and schema migrations remain
 open rather than being encoded with pickle or implicit conventions.
 
+## Resolved in Milestone 5: Gymnasium integration
+
+Milestone 5 fixes lazy optional Gymnasium loading, scalar Discrete actions,
+row-major flattening of fixed-shape numeric observations, separate terminated
+and truncated signals, fresh environments per graph evaluation, common episode
+seeds, and an independent hard rollout limit. See
+[Gymnasium integration](gymnasium-integration.md).
+
+Composite spaces, vector environments, asynchronous rollouts, and environment
+state serialization remain open.
+
+## Resolved in Milestone 6: stateful TPG
+
+Milestone 6 fixes explicit episode reset, memory appended after the raw
+observation, one atomic memory update after successful graph traversal,
+unchanged zero-initialized learner registers, per-graph evaluation memory, and
+oldest-to-newest observation-history ordering. See
+[Stateful memory](stateful-memory.md).
+
+Persistent per-learner registers, explicit memory-addressing instructions,
+evolved memory-write actions, memory mutation, and mid-episode environment plus
+memory checkpoints remain alternative research designs rather than implicit
+parts of the reference runtime.
+
+## Resolved in Milestone 7: multi-agent TPG
+
+Milestone 7 fixes an ordered fixed agent roster, exact synchronous observation
+sets, isolated per-agent memory for independent control, graph parameter sharing
+without live-state sharing, transactional independent steps, centralized joint
+observation concatenation, one shared memory update, and reversible row-major
+mixed-radix joint actions. See [Multi-agent TPG](multi-agent.md).
+
+Dynamic and turn-based rosters, partial observations, individual-agent episode
+termination, environment integration, continuous/composite actions,
+centralized-training/decentralized-execution, coevolution, and multi-agent credit
+assignment remain explicit future policies.
+
 ## Project decisions before public release
 
 - Final distribution name (the current `pytpg` name is provisional).

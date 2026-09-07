@@ -34,6 +34,10 @@ MUST:
 5. apply the numerical-safety policy below; and
 6. return the final finite value in register 0 as the raw bid.
 
+Stateful composition does not alter this lifecycle. Persistent episode memory
+is appended to the observation as explicit input channels; it does not seed or
+reuse program registers. See [Stateful memory](stateful-memory.md).
+
 The observation MUST be a one-dimensional sequence whose length exactly equals
 `RuntimeConfig.input_size`. Each value MUST be a finite real number. The executor
 MUST reject booleans, non-numeric values, NaN, infinity, and shape mismatches; it
