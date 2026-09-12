@@ -2,9 +2,11 @@
 
 
 def test_top_level_package_imports() -> None:
+    from importlib.metadata import version
+
     import pytpg
 
-    assert pytpg.__version__ == "0.5.0"
+    assert pytpg.__version__ == version("pytpg")
     assert pytpg.__all__ == ["__version__"]
 
 

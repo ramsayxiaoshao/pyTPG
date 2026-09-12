@@ -37,3 +37,16 @@ remain unchanged. The distribution name and version remain `pytpg` / `0.5.0`.
 MIT licensed. Copyright (c) 2026 pyTPG contributors.
 The full license is included in both the wheel and source distribution.
 Package metadata uses the MIT SPDX expression and explicitly includes LICENSE.
+
+## Version management and CI
+
+Change `[project].version` in `pyproject.toml` to set the release version.
+`pytpg.__version__` reads installed distribution metadata with
+`importlib.metadata.version("pytpg")`. Install the checkout (for example with
+`python -m pip install -e ".[dev,gymnasium]"`) before importing or testing it.
+There is no separate hard-coded source-tree version or fallback version.
+Reinstall after changing the version to refresh installed metadata.
+
+GitHub Actions runs the complete suite, including `tests/test_distribution.py`,
+on Python 3.10 through 3.14 for pushes and pull requests. A separate Python 3.14
+job runs Ruff, Pyright, pytest, build, and Twine checks. Neither job publishes.

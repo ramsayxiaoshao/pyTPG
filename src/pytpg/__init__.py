@@ -1,5 +1,7 @@
 """Public package namespace for the pyTPG research framework."""
 
-__version__ = "0.5.0"
+from importlib.metadata import version as _version
+
+__version__ = _version("pytpg")
 
 __all__ = ["__version__"]
