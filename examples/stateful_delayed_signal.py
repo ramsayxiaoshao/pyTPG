@@ -1,6 +1,6 @@
 """Recall a signal after three neutral observations using composed memory."""
 
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,
@@ -17,8 +17,8 @@ from tpg.core import (
     TeamID,
     TPGGraph,
 )
-from tpg.memory import ObservationHistoryMemory, StatefulGraphRuntime
-from tpg.runtime import GraphRuntime, RuntimeConfig
+from pytpg.memory import ObservationHistoryMemory, StatefulGraphRuntime
+from pytpg.runtime import GraphRuntime, RuntimeConfig
 
 
 def recall_graph() -> TPGGraph:

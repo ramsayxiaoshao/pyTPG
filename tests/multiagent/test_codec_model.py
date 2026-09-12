@@ -2,7 +2,7 @@
 
 import pytest
 
-from tpg.multiagent import (
+from pytpg.multiagent import (
     AgentID,
     AgentSpec,
     JointActionCodec,

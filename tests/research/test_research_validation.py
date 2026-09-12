@@ -6,16 +6,16 @@ from dataclasses import replace
 
 import pytest
 
-from tpg.callbacks import EvolutionEvent, LoggingCallback
-from tpg.config import TPGConfig
-from tpg.evaluation import (
+from pytpg.callbacks import EvolutionEvent, LoggingCallback
+from pytpg.config import TPGConfig
+from pytpg.evaluation import (
     ContextualBandit,
     GenerationStatistics,
     OperatorStatistics,
     RunStatistics,
     SequentialEvaluator,
 )
-from tpg.evolution import (
+from pytpg.evolution import (
     EvolutionConfigurationError,
     EvolutionEngine,
     EvolutionRunResult,
@@ -24,9 +24,9 @@ from tpg.evolution import (
     ReproductionConfig,
     create_rng,
 )
-from tpg.experiment import run_experiment
-from tpg.metadata import ExperimentMetadata
-from tpg.serialization import (
+from pytpg.experiment import run_experiment
+from pytpg.metadata import ExperimentMetadata
+from pytpg.serialization import (
     Checkpoint,
     CheckpointCompatibilityError,
     InvalidSerializedDataError,

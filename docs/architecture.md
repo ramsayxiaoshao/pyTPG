@@ -27,7 +27,7 @@ semantics without knowing how observations or actions are produced externally.
 ## Initial repository structure
 
 ```text
-src/tpg/
+src/pytpg/
     core/                 # Immutable domain model
     runtime/              # Program, team, and graph reference execution
     evolution/            # Population, selection, mutation, reproduction, engine
@@ -173,7 +173,7 @@ performs bounded, visited-aware traversal and produces traces. These layers know
 nothing about environments or evolutionary state.
 
 The runtime consumes immutable core values through read-only structural
-`Protocol` contracts and does not import `tpg.core`. `Team.act` is a convenience
+`Protocol` contracts and does not import `pytpg.core`. `Team.act` is a convenience
 method that imports the concrete runtime only when called. This preserves the
 declared core-to-runtime dependency while keeping module loading free of a
 cycle; an architecture test guards the boundary.

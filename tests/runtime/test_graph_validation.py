@@ -2,7 +2,7 @@
 
 import pytest
 
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,
@@ -20,7 +20,7 @@ from tpg.core import (
     TeamReference,
     TPGGraph,
 )
-from tpg.runtime import GraphValidationError, RuntimeConfig
+from pytpg.runtime import GraphValidationError, RuntimeConfig
 
 
 def learner(

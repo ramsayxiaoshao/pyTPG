@@ -1,6 +1,6 @@
 """Manually construct and execute a deterministic Milestone 1 team."""
 
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,

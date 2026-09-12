@@ -1,6 +1,6 @@
 """Tests for non-executing graph inspection statistics."""
 
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,
@@ -16,7 +16,7 @@ from tpg.core import (
     TeamReference,
     TPGGraph,
 )
-from tpg.runtime import cyclic_team_ids, reachable_team_ids, summarize_graph
+from pytpg.runtime import cyclic_team_ids, reachable_team_ids, summarize_graph
 
 
 def learner(

@@ -5,7 +5,7 @@ from typing import cast
 
 import pytest
 
-from tpg.memory import (
+from pytpg.memory import (
     MemoryConfigurationError,
     MemorySnapshot,
     MemoryStateError,
@@ -14,7 +14,7 @@ from tpg.memory import (
     ObservationHistoryMemory,
     RegisterMemory,
 )
-from tpg.runtime import TraversalResult, TraversalStep
+from pytpg.runtime import TraversalResult, TraversalStep
 
 
 def update_context(

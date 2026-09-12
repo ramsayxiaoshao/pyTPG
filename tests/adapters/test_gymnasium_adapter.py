@@ -10,7 +10,7 @@ from typing import cast
 import numpy as np
 import pytest
 
-from tpg.adapters import (
+from pytpg.adapters import (
     GymnasiumAdapter,
     GymnasiumDependencyError,
     GymnasiumEnvironment,

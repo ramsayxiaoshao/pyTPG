@@ -2,7 +2,7 @@
 
 import pytest
 
-from tpg.core import (
+from pytpg.core import (
     ConstantOperand,
     InputIndex,
     InputOperand,
@@ -13,7 +13,7 @@ from tpg.core import (
     RegisterIndex,
     RegisterOperand,
 )
-from tpg.runtime import (
+from pytpg.runtime import (
     InvalidInstructionError,
     InvalidObservationError,
     Operator,

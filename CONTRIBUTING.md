@@ -20,7 +20,12 @@ ruff check .
 pyright
 pytest
 python -m build
+python -m twine check dist/*
 ```
+
+Install development dependencies with `python -m pip install -e ".[dev]"`.
+The distribution test also requires pip and builds an installed-wheel smoke test.
+See [release preparation](docs/release.md) for compatibility and licensing.
 
 Milestone 7 intentionally uses a fixed synchronous agent roster. Independent
 controllers isolate live episode state; centralized shared control concatenates

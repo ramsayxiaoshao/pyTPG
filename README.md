@@ -12,7 +12,13 @@ episode-scoped stateful TPG, and deterministic multi-agent composition.
 
 ## Installation
 
-For development, use Python 3.10 or newer:
+Requires Python 3.10 or newer. After the first public release, install with:
+
+```bash
+pip install pytpg
+```
+
+For development from a checkout:
 
 ```bash
 python -m pip install -e ".[dev]"
@@ -21,17 +27,21 @@ python -m pip install -e ".[dev]"
 Install the optional Gymnasium integration with:
 
 ```bash
-python -m pip install -e ".[gymnasium]"
+python -m pip install "pytpg[gymnasium]"
 ```
 
-The distribution name is provisional until the first public release.
+The PyPI distribution and Python import namespace are both `pytpg`.
+The GitHub project name is pyTPG.
+
+Code using the previous `tpg` namespace must update imports to `pytpg`;
+no compatibility alias is provided. See [release notes](docs/release.md).
 
 ## Minimal example
 
 The following manually constructs and executes a one-team TPG graph:
 
 ```python
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,
@@ -160,3 +170,7 @@ python -m build
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the development boundaries.
+
+## License
+
+MIT licensed. Copyright (c) 2026 pyTPG contributors. See [LICENSE](LICENSE).

@@ -2,7 +2,7 @@
 
 import pytest
 
-from tpg.evolution import (
+from pytpg.evolution import (
     EvolutionConfigurationError,
     GenomeConfig,
     GraphInitializer,
@@ -10,7 +10,7 @@ from tpg.evolution import (
     PopulationInitializer,
     create_rng,
 )
-from tpg.runtime import reachable_team_ids
+from pytpg.runtime import reachable_team_ids
 
 
 def initialization_config(**overrides: object) -> InitializationConfig:

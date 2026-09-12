@@ -2,11 +2,11 @@
 
 from pathlib import Path
 
-from tpg.config import TPGConfig
-from tpg.evaluation import ContextualBandit
-from tpg.evolution import GenomeConfig, InitializationConfig, ReproductionConfig
-from tpg.experiment import resume_experiment, run_experiment
-from tpg.serialization import load_checkpoint, save_checkpoint
+from pytpg.config import TPGConfig
+from pytpg.evaluation import ContextualBandit
+from pytpg.evolution import GenomeConfig, InitializationConfig, ReproductionConfig
+from pytpg.experiment import resume_experiment, run_experiment
+from pytpg.serialization import load_checkpoint, save_checkpoint
 
 config = TPGConfig(
     initialization=InitializationConfig(
@@ -28,7 +28,7 @@ initial = run_experiment(
     name="signed-binary-bandit",
     tags=(("purpose", "example"),),
 )
-checkpoint_path = Path("bandit-generation-5.tpg.json")
+checkpoint_path = Path("bandit-generation-5.pytpg.json")
 save_checkpoint(initial.checkpoint(), checkpoint_path)
 
 resumed = resume_experiment(load_checkpoint(checkpoint_path), task, generations=5)

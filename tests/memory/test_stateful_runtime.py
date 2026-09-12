@@ -2,7 +2,7 @@
 
 import pytest
 
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,
@@ -19,7 +19,7 @@ from tpg.core import (
     TeamID,
     TPGGraph,
 )
-from tpg.memory import (
+from pytpg.memory import (
     MemoryConfigurationError,
     MemorySnapshot,
     MemoryStateError,
@@ -27,7 +27,7 @@ from tpg.memory import (
     ObservationHistoryMemory,
     StatefulGraphRuntime,
 )
-from tpg.runtime import GraphRuntime, GraphValidationError, RuntimeConfig
+from pytpg.runtime import GraphRuntime, GraphValidationError, RuntimeConfig
 
 
 def memory_choice_graph(memory_input: int = 1) -> TPGGraph:

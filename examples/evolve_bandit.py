@@ -1,7 +1,7 @@
 """Run a tiny deterministic evolution on a two-case contextual bandit."""
 
-from tpg.evaluation import ContextualBandit, SequentialEvaluator
-from tpg.evolution import (
+from pytpg.evaluation import ContextualBandit, SequentialEvaluator
+from pytpg.evolution import (
     EvolutionEngine,
     GenomeConfig,
     GraphInitializer,

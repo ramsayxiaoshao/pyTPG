@@ -2,7 +2,7 @@
 
 import pytest
 
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,
@@ -18,7 +18,7 @@ from tpg.core import (
     TeamReference,
     TPGGraph,
 )
-from tpg.runtime import (
+from pytpg.runtime import (
     GraphRuntime,
     GraphValidationError,
     NoEligibleLearnerError,

@@ -4,9 +4,9 @@ from collections.abc import Callable
 
 import pytest
 
-from tpg.core import TPGGraph
-from tpg.evaluation import SequentialEvaluator
-from tpg.evolution import (
+from pytpg.core import TPGGraph
+from pytpg.evaluation import SequentialEvaluator
+from pytpg.evolution import (
     EvaluatedIndividual,
     EvaluatedPopulation,
     EvolutionConfigurationError,

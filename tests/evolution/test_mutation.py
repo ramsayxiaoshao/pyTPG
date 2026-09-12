@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,
@@ -19,7 +19,7 @@ from tpg.core import (
     TeamID,
     TPGGraph,
 )
-from tpg.evolution import (
+from pytpg.evolution import (
     AddLearnerMutation,
     AddTeamMutation,
     DeleteInstructionMutation,
@@ -39,7 +39,7 @@ from tpg.evolution import (
     create_rng,
     default_mutation,
 )
-from tpg.runtime import reachable_team_ids
+from pytpg.runtime import reachable_team_ids
 
 
 class ZeroRNG:

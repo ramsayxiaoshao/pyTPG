@@ -4,8 +4,8 @@ import math
 
 import pytest
 
-from tpg.core import OperatorName
-from tpg.runtime import (
+from pytpg.core import OperatorName
+from pytpg.runtime import (
     Operator,
     OperatorRegistry,
     UnknownOperatorError,

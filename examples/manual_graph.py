@@ -1,6 +1,6 @@
 """Build and traverse a small cyclic TPG with deterministic termination."""
 
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,

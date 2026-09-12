@@ -1,13 +1,13 @@
 """Run a small fixed-seed TPG evolution on Gymnasium CartPole."""
 
-from tpg.adapters import (
+from pytpg.adapters import (
     GymnasiumAdapter,
     GymnasiumEvaluationConfig,
     GymnasiumFitness,
     make_gymnasium_environment,
 )
-from tpg.evaluation import SequentialEvaluator
-from tpg.evolution import (
+from pytpg.evaluation import SequentialEvaluator
+from pytpg.evolution import (
     EvolutionEngine,
     GenomeConfig,
     GraphInitializer,

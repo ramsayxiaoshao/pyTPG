@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,
@@ -20,12 +20,12 @@ from tpg.core import (
     TeamID,
     TPGGraph,
 )
-from tpg.evaluation import (
+from pytpg.evaluation import (
     ContextualBandit,
     ContextualBanditCase,
     SequentialEvaluator,
 )
-from tpg.evolution import (
+from pytpg.evolution import (
     EvaluatedIndividual,
     EvaluatedPopulation,
     EvolutionConfigurationError,

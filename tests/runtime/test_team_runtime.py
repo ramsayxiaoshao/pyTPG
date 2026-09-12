@@ -2,7 +2,7 @@
 
 import pytest
 
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,
@@ -20,7 +20,7 @@ from tpg.core import (
     TeamID,
     TeamReference,
 )
-from tpg.runtime import (
+from pytpg.runtime import (
     DeterministicRuntime,
     RuntimeConfig,
     TeamReferenceRequiresGraphError,

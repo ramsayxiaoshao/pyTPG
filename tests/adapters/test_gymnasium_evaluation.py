@@ -9,7 +9,7 @@ from typing import cast
 import numpy as np
 import pytest
 
-from tpg.adapters import (
+from pytpg.adapters import (
     GymnasiumAdapter,
     GymnasiumEnvironment,
     GymnasiumEpisodeStateError,
@@ -18,7 +18,7 @@ from tpg.adapters import (
     GymnasiumFitness,
     make_gymnasium_environment,
 )
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,
@@ -35,8 +35,8 @@ from tpg.core import (
     TeamID,
     TPGGraph,
 )
-from tpg.memory import ObservationHistoryMemory
-from tpg.runtime import GraphValidationError
+from pytpg.memory import ObservationHistoryMemory
+from pytpg.runtime import GraphValidationError
 
 
 @dataclass

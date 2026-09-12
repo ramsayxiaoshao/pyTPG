@@ -92,7 +92,7 @@ assignment remain explicit future policies.
 
 ## Project decisions before public release
 
-- Final distribution name (the current `pytpg` name is provisional).
-- Open-source license.
+- Release identity resolved: project `pyTPG`, distribution/import `pytpg`, version `0.5.0`.
+- License resolved: MIT, copyright (c) 2026 pyTPG contributors.
 - Citation metadata and archival release process.
 - Supported Python version window and compatibility policy.

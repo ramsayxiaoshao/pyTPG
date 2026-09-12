@@ -2,8 +2,8 @@
 
 import pytest
 
-from tpg.core import RegisterIndex
-from tpg.runtime import RegisterAccessError, RegisterFile
+from pytpg.core import RegisterIndex
+from pytpg.runtime import RegisterAccessError, RegisterFile
 
 
 def test_registers_start_at_zero_and_snapshot_is_immutable() -> None:

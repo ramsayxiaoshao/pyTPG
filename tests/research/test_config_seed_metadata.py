@@ -2,16 +2,16 @@
 
 import pytest
 
-from tpg.config import TPGConfig
-from tpg.evolution import (
+from pytpg.config import TPGConfig
+from pytpg.evolution import (
     EvolutionConfigurationError,
     GenomeConfig,
     InitializationConfig,
     MutationConfig,
     ReproductionConfig,
 )
-from tpg.metadata import ExperimentMetadata
-from tpg.seed import SeedManager
+from pytpg.metadata import ExperimentMetadata
+from pytpg.seed import SeedManager
 
 
 def config(**overrides: object) -> TPGConfig:

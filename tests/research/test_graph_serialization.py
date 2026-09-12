@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,
@@ -24,7 +24,7 @@ from tpg.core import (
     TeamReference,
     TPGGraph,
 )
-from tpg.serialization import (
+from pytpg.serialization import (
     GRAPH_FORMAT_VERSION,
     InvalidSerializedDataError,
     UnsupportedFormatVersionError,
@@ -94,7 +94,7 @@ def test_graph_json_round_trip_preserves_values_and_shared_identity() -> None:
 
 
 def test_graph_file_save_is_atomic_and_round_trips(tmp_path: Path) -> None:
-    path = tmp_path / "nested" / "agent.tpg.json"
+    path = tmp_path / "nested" / "agent.pytpg.json"
 
     save_graph(shared_graph(), path)
 

@@ -4,19 +4,19 @@ from pathlib import Path
 
 import pytest
 
-from tpg.callbacks import EventRecorder
-from tpg.config import TPGConfig
-from tpg.core import TPGGraph
-from tpg.evaluation import ContextualBandit
-from tpg.evolution import (
+from pytpg.callbacks import EventRecorder
+from pytpg.config import TPGConfig
+from pytpg.core import TPGGraph
+from pytpg.evaluation import ContextualBandit
+from pytpg.evolution import (
     GenomeConfig,
     InitializationConfig,
     ReproductionConfig,
     create_rng,
 )
-from tpg.experiment import resume_experiment, run_experiment
-from tpg.metadata import ExperimentMetadata
-from tpg.serialization import (
+from pytpg.experiment import resume_experiment, run_experiment
+from pytpg.metadata import ExperimentMetadata
+from pytpg.serialization import (
     CheckpointCompatibilityError,
     InvalidSerializedDataError,
     UnsupportedFormatVersionError,

@@ -5,15 +5,15 @@ import logging
 
 import pytest
 
-from tpg.callbacks import EventRecorder, LoggingCallback
-from tpg.config import TPGConfig
-from tpg.evaluation import ContextualBandit
-from tpg.evolution import (
+from pytpg.callbacks import EventRecorder, LoggingCallback
+from pytpg.config import TPGConfig
+from pytpg.evaluation import ContextualBandit
+from pytpg.evolution import (
     GenomeConfig,
     InitializationConfig,
     ReproductionConfig,
 )
-from tpg.experiment import run_experiment
+from pytpg.experiment import run_experiment
 
 
 def config() -> TPGConfig:

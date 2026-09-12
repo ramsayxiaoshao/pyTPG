@@ -3,7 +3,7 @@
 import ast
 from pathlib import Path
 
-PACKAGE_ROOT = Path(__file__).parents[1] / "src" / "tpg"
+PACKAGE_ROOT = Path(__file__).parents[1] / "src" / "pytpg"
 
 
 def imported_modules(package: Path) -> set[str]:
@@ -20,14 +20,14 @@ def imported_modules(package: Path) -> set[str]:
 
 def test_runtime_does_not_import_core_or_higher_layers() -> None:
     forbidden = (
-        "tpg.core",
-        "tpg.evolution",
-        "tpg.evaluation",
-        "tpg.memory",
-        "tpg.multiagent",
-        "tpg.adapters",
-        "tpg.serialization",
-        "tpg.callbacks",
+        "pytpg.core",
+        "pytpg.evolution",
+        "pytpg.evaluation",
+        "pytpg.memory",
+        "pytpg.multiagent",
+        "pytpg.adapters",
+        "pytpg.serialization",
+        "pytpg.callbacks",
     )
 
     imports = imported_modules(PACKAGE_ROOT / "runtime")
@@ -41,13 +41,13 @@ def test_runtime_does_not_import_core_or_higher_layers() -> None:
 
 def test_core_does_not_import_higher_layers() -> None:
     forbidden = (
-        "tpg.evolution",
-        "tpg.evaluation",
-        "tpg.memory",
-        "tpg.multiagent",
-        "tpg.adapters",
-        "tpg.serialization",
-        "tpg.callbacks",
+        "pytpg.evolution",
+        "pytpg.evaluation",
+        "pytpg.memory",
+        "pytpg.multiagent",
+        "pytpg.adapters",
+        "pytpg.serialization",
+        "pytpg.callbacks",
     )
 
     imports = imported_modules(PACKAGE_ROOT / "core")
@@ -80,12 +80,12 @@ def test_environment_packages_are_confined_to_adapters() -> None:
 
 def test_memory_depends_only_on_core_and_runtime_layers() -> None:
     forbidden = (
-        "tpg.adapters",
-        "tpg.callbacks",
-        "tpg.evaluation",
-        "tpg.evolution",
-        "tpg.multiagent",
-        "tpg.serialization",
+        "pytpg.adapters",
+        "pytpg.callbacks",
+        "pytpg.evaluation",
+        "pytpg.evolution",
+        "pytpg.multiagent",
+        "pytpg.serialization",
     )
 
     imports = imported_modules(PACKAGE_ROOT / "memory")
@@ -99,11 +99,11 @@ def test_memory_depends_only_on_core_and_runtime_layers() -> None:
 
 def test_multiagent_depends_only_on_core_runtime_and_memory() -> None:
     forbidden = (
-        "tpg.adapters",
-        "tpg.callbacks",
-        "tpg.evaluation",
-        "tpg.evolution",
-        "tpg.serialization",
+        "pytpg.adapters",
+        "pytpg.callbacks",
+        "pytpg.evaluation",
+        "pytpg.evolution",
+        "pytpg.serialization",
     )
 
     imports = imported_modules(PACKAGE_ROOT / "multiagent")

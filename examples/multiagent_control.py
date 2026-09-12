@@ -1,6 +1,6 @@
 """Run heterogeneous independent and centralized shared TPG control."""
 
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,
@@ -15,7 +15,7 @@ from tpg.core import (
     TeamID,
     TPGGraph,
 )
-from tpg.multiagent import (
+from pytpg.multiagent import (
     AgentID,
     AgentSpec,
     IndependentMultiAgentRuntime,

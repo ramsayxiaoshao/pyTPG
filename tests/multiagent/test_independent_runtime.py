@@ -2,7 +2,7 @@
 
 import pytest
 
-from tpg.core import (
+from pytpg.core import (
     ActionID,
     AtomicAction,
     ConstantOperand,
@@ -17,8 +17,8 @@ from tpg.core import (
     TeamID,
     TPGGraph,
 )
-from tpg.memory import MemorySnapshot, ObservationHistoryMemory, RegisterMemory
-from tpg.multiagent import (
+from pytpg.memory import MemorySnapshot, ObservationHistoryMemory, RegisterMemory
+from pytpg.multiagent import (
     AgentID,
     AgentSpec,
     IndependentMultiAgentRuntime,

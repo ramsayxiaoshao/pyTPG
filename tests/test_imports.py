@@ -2,14 +2,14 @@
 
 
 def test_top_level_package_imports() -> None:
-    import tpg
+    import pytpg
 
-    assert tpg.__version__ == "0.5.0"
-    assert tpg.__all__ == ["__version__"]
+    assert pytpg.__version__ == "0.5.0"
+    assert pytpg.__all__ == ["__version__"]
 
 
 def test_core_public_api_imports() -> None:
-    from tpg import core
+    from pytpg import core
 
     expected = {
         "Action",
@@ -37,7 +37,7 @@ def test_core_public_api_imports() -> None:
 
 
 def test_runtime_public_api_imports() -> None:
-    from tpg import runtime
+    from pytpg import runtime
 
     expected = {
         "DeterministicRuntime",
@@ -81,7 +81,7 @@ def test_runtime_public_api_imports() -> None:
 
 
 def test_evaluation_can_be_imported_before_evolution() -> None:
-    from tpg import evaluation, evolution
+    from pytpg import evaluation, evolution
 
     assert set(evaluation.__all__) == {
         "ContextualBandit",
@@ -133,11 +133,11 @@ def test_evaluation_can_be_imported_before_evolution() -> None:
 
 
 def test_research_infrastructure_public_apis() -> None:
-    from tpg import callbacks, serialization
-    from tpg.config import TPGConfig
-    from tpg.experiment import ExperimentResult, resume_experiment, run_experiment
-    from tpg.metadata import ExperimentMetadata
-    from tpg.seed import SeedManager
+    from pytpg import callbacks, serialization
+    from pytpg.config import TPGConfig
+    from pytpg.experiment import ExperimentResult, resume_experiment, run_experiment
+    from pytpg.metadata import ExperimentMetadata
+    from pytpg.seed import SeedManager
 
     assert set(callbacks.__all__) == {
         "EventRecorder",
@@ -181,7 +181,7 @@ def test_research_infrastructure_public_apis() -> None:
 
 
 def test_gymnasium_adapter_public_api_imports_without_optional_dependency() -> None:
-    from tpg import adapters
+    from pytpg import adapters
 
     assert set(adapters.__all__) == {
         "GymnasiumAdapter",
@@ -204,7 +204,7 @@ def test_gymnasium_adapter_public_api_imports_without_optional_dependency() -> N
 
 
 def test_memory_public_api_imports() -> None:
-    from tpg import memory
+    from pytpg import memory
 
     assert set(memory.__all__) == {
         "Memory",
@@ -224,7 +224,7 @@ def test_memory_public_api_imports() -> None:
 
 
 def test_multiagent_public_api_imports() -> None:
-    from tpg import multiagent
+    from pytpg import multiagent
 
     assert set(multiagent.__all__) == {
         "AgentAction",

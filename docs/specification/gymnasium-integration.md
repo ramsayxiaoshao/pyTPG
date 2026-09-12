@@ -8,9 +8,9 @@ program, bidding, traversal, mutation, or selection semantics.
 
 ## Dependency boundary
 
-`tpg.adapters` MUST remain importable when Gymnasium is absent. Gymnasium MUST
+`pytpg.adapters` MUST remain importable when Gymnasium is absent. Gymnasium MUST
 be loaded only when an environment is created, and it MUST be distributed as an
-optional extra. `tpg.core`, `tpg.runtime`, `tpg.evolution`, and `tpg.evaluation`
+optional extra. `pytpg.core`, `pytpg.runtime`, `pytpg.evolution`, and `pytpg.evaluation`
 MUST NOT import Gymnasium.
 
 An environment factory MUST return a fresh environment for each graph fitness
