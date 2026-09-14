@@ -11,3 +11,7 @@ build/
 dist/
 htmlcov/
 
+
+# Generated execution replay example artifacts
+/example_trace.json
+/example_trace.html

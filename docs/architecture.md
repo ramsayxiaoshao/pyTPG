@@ -177,3 +177,13 @@ The runtime consumes immutable core values through read-only structural
 method that imports the concrete runtime only when called. This preserves the
 declared core-to-runtime dependency while keeping module loading free of a
 cycle; an architecture test guards the boundary.
+
+## Execution replay
+
+`runtime.trace` contains immutable detailed execution records. `GraphRuntime`
+captures optional records from its existing bidding pass; it does not depend on
+the visualization layer. `visualization.model`, `serialization` and `aggregate`
+provide dependency-free topology snapshots, versioned trace sessions and usage
+counts. `visualization.render` lazily loads NetworkX and Plotly for fixed-layout
+offline HTML replay. The CLI is a thin rendering client. Environment callers
+supply step labels, agent IDs and JSON metadata without adapter coupling.

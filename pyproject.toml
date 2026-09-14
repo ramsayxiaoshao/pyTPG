@@ -31,7 +31,11 @@ Repository = "https://github.com/ramsayxiaoshao/pyTPG"
 Documentation = "https://github.com/ramsayxiaoshao/pyTPG/tree/main/docs"
 Issues = "https://github.com/ramsayxiaoshao/pyTPG/issues"
 
+[project.scripts]
+pytpg-visualize = "pytpg.visualization.cli:main"
+
 [project.optional-dependencies]
+visualization = ["networkx>=3.2", "plotly>=5.20"]
 gymnasium = ["gymnasium>=1.0,<2"]
 dev = [
     "build>=1.2",

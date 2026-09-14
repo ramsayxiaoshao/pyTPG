@@ -174,3 +174,14 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the development boundaries.
 ## License
 
 MIT licensed. Copyright (c) 2026 pyTPG contributors. See [LICENSE](LICENSE).
+
+## Execution visualization
+
+Record actual eligible bids, winners, excluded references and traversal paths
+with `GraphRuntime.traverse_detailed()` and `TraceSession`. Install
+`pip install "pytpg[visualization]"` to render standalone offline HTML with
+Play/Pause, a decision timeline and whole-session activation counts.
+
+Run `python examples/visualize_trace.py`, or render recorded JSON with
+`pytpg-visualize episode_trace.json --output trace.html`.
+See [execution visualization](docs/visualization.md) for Python usage and schema details.

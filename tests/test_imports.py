@@ -42,6 +42,9 @@ def test_runtime_public_api_imports() -> None:
     from pytpg import runtime
 
     expected = {
+        "DetailedTraversalResult",
+        "LearnerEvaluationTrace",
+        "TeamDecisionTrace",
         "DeterministicRuntime",
         "ExecutionResult",
         "GraphRuntime",

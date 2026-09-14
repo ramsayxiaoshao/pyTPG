@@ -20,6 +20,11 @@ from pytpg.runtime.inference import infer_register_count
 from pytpg.runtime.inspection import GraphSummary, summarize_graph
 from pytpg.runtime.operators import OperatorRegistry
 from pytpg.runtime.team_runtime import DeterministicRuntime
+from pytpg.runtime.trace import (
+    DetailedTraversalResult,
+    LearnerEvaluationTrace,
+    TeamDecisionTrace,
+)
 
 TraversalActionKind: TypeAlias = Literal["atomic", "team_reference"]
 
@@ -136,6 +141,32 @@ class GraphRuntime:
     ) -> TraversalResult:
         """Traverse until an atomic action wins or a safety error is raised."""
 
+        return self._traverse(graph, observation, root_team_id=root_team_id)
+
+    def traverse_detailed(
+        self,
+        graph: GraphLike,
+        observation: Sequence[float],
+        *,
+        root_team_id: int | None = None,
+    ) -> DetailedTraversalResult:
+        """Capture every eligible bid once, plus non-executed excluded learners."""
+        decisions: list[TeamDecisionTrace] = []
+        result = self._traverse(
+            graph, observation, root_team_id=root_team_id, decisions=decisions
+        )
+        return DetailedTraversalResult(
+            decisions[0].team_id, result.action_id, tuple(decisions)
+        )
+
+    def _traverse(
+        self,
+        graph: GraphLike,
+        observation: Sequence[float],
+        *,
+        root_team_id: int | None,
+        decisions: list[TeamDecisionTrace] | None = None,
+    ) -> TraversalResult:
         if self.validate_before_execution:
             self.validate(graph).require_valid()
         self.runtime.executor.normalize_observation(observation)
@@ -165,7 +196,38 @@ class GraphRuntime:
                 )
                 raise NoEligibleLearnerError(msg)
 
-            winner, bid = self._select_eligible(eligible, observation)
+            winner, bid, bids = self._select_eligible(eligible, observation)
+            if decisions is not None:
+                bid_by_id = {
+                    item.id: value for item, value in zip(eligible, bids, strict=True)
+                }
+                decisions.append(
+                    TeamDecisionTrace(
+                        current_team_id,
+                        tuple(
+                            LearnerEvaluationTrace(
+                                learner_id=item.id,
+                                program_id=item.program.id,
+                                bid=bid_by_id.get(item.id),
+                                evaluated=item.id in bid_by_id,
+                                eligible=item.id in bid_by_id,
+                                winner=item.id == winner.id,
+                                action_kind=item.action.kind,
+                                atomic_action_id=(
+                                    item.action.action_id
+                                    if item.action.kind == "atomic"
+                                    else None
+                                ),
+                                referenced_team_id=(
+                                    item.action.team_id
+                                    if item.action.kind == "team_reference"
+                                    else None
+                                ),
+                            )
+                            for item in team.learners
+                        ),
+                    )
+                )
             if winner.action.kind == "atomic":
                 step = TraversalStep(
                     team_id=current_team_id,
@@ -212,13 +274,13 @@ class GraphRuntime:
         self,
         learners: tuple[LearnerLike, ...],
         observation: Sequence[float],
-    ) -> tuple[LearnerLike, float]:
+    ) -> tuple[LearnerLike, float, tuple[float, ...]]:
         bids = tuple(
             self.runtime.executor.execute(learner.program, observation).output
             for learner in learners
         )
         winner_index = max(range(len(learners)), key=bids.__getitem__)
-        return learners[winner_index], bids[winner_index]
+        return learners[winner_index], bids[winner_index], bids
 
     @staticmethod
     def _resolve_root(graph: GraphLike, root_team_id: int | None) -> int:

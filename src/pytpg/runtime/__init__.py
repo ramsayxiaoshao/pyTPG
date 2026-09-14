@@ -44,8 +44,16 @@ from pytpg.runtime.operators import (
 )
 from pytpg.runtime.registers import RegisterFile
 from pytpg.runtime.team_runtime import DeterministicRuntime
+from pytpg.runtime.trace import (
+    DetailedTraversalResult,
+    LearnerEvaluationTrace,
+    TeamDecisionTrace,
+)
 
 __all__ = [
+    "DetailedTraversalResult",
+    "LearnerEvaluationTrace",
+    "TeamDecisionTrace",
     "DeterministicRuntime",
     "ExecutionResult",
     "GraphRuntime",
